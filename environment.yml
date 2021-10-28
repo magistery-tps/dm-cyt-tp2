@@ -1,0 +1,13 @@
+name: dm-cyt-tp2
+channels:
+  - defaults
+dependencies:
+  - python=3.9.6
+  - matplotlib
+  - pandas
+  - numpy
+  - scikit-learn
+  - jupyterlab
+  - seaborn
+  - pip
+  - pip:
