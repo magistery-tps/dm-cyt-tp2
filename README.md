@@ -10,7 +10,7 @@
 ## Pre-Requisitos
 
 * [git](https://git-scm.com/downloads)
-* [anaconda](https://www.anaconda.com/products/individual)/[minconda](https://docs.conda.io/en/latest/miniconda.html)
+* [anaconda](https://www.anaconda.com/products/individual) / [minconda](https://docs.conda.io/en/latest/miniconda.html)
 
 ## Comenzando
 
