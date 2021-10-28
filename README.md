@@ -3,6 +3,10 @@
 
 ## Trabajos Prácticos 2
 
+* [Consigna]()
+* **Notebooks**
+  * [Crear grafo](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/create_graph.ipynb) 
+
 ## Pre-Requisitos
 
 * [git](https://git-scm.com/downloads)
