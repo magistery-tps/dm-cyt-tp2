@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-dataset/
-procesados-20210908T224817Z-001.zip
+
+*.csv
