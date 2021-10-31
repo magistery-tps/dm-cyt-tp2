@@ -5,7 +5,7 @@
 
 * [Consigna]()
 * **Notebooks**
-  * [Preprocesamiento](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/procesessing.ipynb) 
+  * [Preprocesamiento](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/preprocessing.ipynb) 
 
 ## Pre-Requisitos
 
