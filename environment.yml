@@ -9,6 +9,7 @@ dependencies:
   - scikit-learn
   - jupyterlab
   - seaborn
-  - rich
+  - nltk
   - pip
   - pip:
+    - rich
