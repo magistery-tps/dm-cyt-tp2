@@ -53,3 +53,13 @@ def to_unique_works(df):
 def to_work_embeddings(df, file_path):
     words = df['word'].values
     return {work: vector for (work, vector) in work_embeddings(words, file_path)}
+
+@step_logger
+def lower(df):
+    df['source']   = df['source'].str.lower()
+    df['response'] = df['response'].str.lower()
+    return df
+
+@step_logger
+def strip(df):
+    return df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
