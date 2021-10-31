@@ -1,7 +1,14 @@
-from step_decorator import step_logger
+import numpy as np
+import pandas as pd
+import logging
+
 import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
+
+from step_decorator import step_logger
+from embedding import work_embeddings
+
 
 @step_logger
 def select_columns(df): return df[['cue','response']]
@@ -35,3 +42,14 @@ def filter_stopwords(df, column, languages=stopwords.fileids()):
         df = filter_stopwords(df, column, languages=[language])
 
     return df
+
+@step_logger
+def to_unique_works(df):
+    words = df['source'].values + df['response'].values
+    rows = {word: True for word in words}
+    return pd.DataFrame(data = rows.keys(), columns = ['word'])
+
+@step_logger
+def to_work_embeddings(df, file_path):
+    words = df['word'].values
+    return {work: vector for (work, vector) in work_embeddings(words, file_path)}
