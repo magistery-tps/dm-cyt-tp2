@@ -17,4 +17,5 @@ def work_embeddings(words, file_path):
                         pbar.update(1)
                 except Exception as exception:
                     logging.warn('Load {} vector error!. {}'.format(word, exception))
+        pbar.update(len(index.keys()) - count)
     logging.info('Found {} words.'.format(count))

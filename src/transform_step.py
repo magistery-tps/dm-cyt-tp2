@@ -37,10 +37,10 @@ def filter_stopwords(df, column, languages=stopwords.fileids()):
     if len(languages) == 1:
         stop_words = stopwords.words(languages[0])
         return df.drop(df[df[column].isin(stop_words)].index)        
-    
+
     for language in languages:
         df = filter_stopwords(df, column, languages=[language])
-
+    
     return df
 
 @step_logger
