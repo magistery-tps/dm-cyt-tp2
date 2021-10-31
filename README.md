@@ -5,7 +5,7 @@
 
 * [Consigna]()
 * **Notebooks**
-  * [Crear grafo](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/create_graph.ipynb) 
+  * [Preprocesamiento](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/procesessing.ipynb) 
 
 ## Pre-Requisitos
 
