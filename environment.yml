@@ -9,5 +9,6 @@ dependencies:
   - scikit-learn
   - jupyterlab
   - seaborn
+  - rich
   - pip
   - pip:
