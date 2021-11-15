@@ -4,8 +4,7 @@
 ## Trabajos Prácticos 2
 
 * [Enunciado](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Enunciado.pdf)
-* **Notebooks**
-  * [Preprocesamiento](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/preprocessing.ipynb) 
+* [Notebooks](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/tp2.ipynb) 
 
 ## Pre-Requisitos
 
