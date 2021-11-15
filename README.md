@@ -3,7 +3,7 @@
 
 ## Trabajos Prácticos 2
 
-* [Consigna]()
+* [Enunciado](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Enunciado.pdf)
 * **Notebooks**
   * [Preprocesamiento](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/preprocessing.ipynb) 
 
