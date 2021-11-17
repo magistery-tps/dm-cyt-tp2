@@ -1,6 +1,11 @@
 from scipy.spatial.distance import euclidean
 import logging
 
+
+def distance(embeddings, word_a, word_b, distance_fn=euclidean):
+    return distance_fn(embeddings[word_a], embeddings[word_b])
+
+
 def closest(embeddings, embedding, distance=euclidean):
     return sorted(
         embeddings.keys(), 

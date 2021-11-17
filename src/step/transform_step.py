@@ -19,8 +19,8 @@ def select_columns(df): return df[['cue','R1']]
 def n_top(df, top): return df[:top]
 
 @step_logger
-def rename_columns(df):
-    return df.rename(columns={'cue': 'source', 'R1': 'response'})
+def rename_columns(df, columns):
+    return df.rename(columns=columns)
 
 def filter_column_words_lt(df, column, lt=2): 
     return df.drop(df[df[column].str.len().lt(lt)].index)
@@ -69,3 +69,8 @@ def lower(df):
 @step_logger
 def strip(df):
     return df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
+@step_logger
+def append_distance(df, embeddings, distance_fn):
+    df[distance_fn.__name__] = df.apply(lambda it: distance_fn(embeddings[it['source']], embeddings[it['response']]), axis = 1)
+    return df

@@ -4,11 +4,15 @@ import networkx as nx
 
 def plot_graph(
     graph, 
-    k           = 0.4, 
-    figsize     = (20, 7), 
+    k           = 0.17, 
+    figsize     = (25, 10), 
     edge_color  = 'gray',
     with_labels = True,
-    font_weight = 'bold'
+    font_color  = 'black',
+    font_weight = 'normal',
+    node_size   = 1000, 
+    node_color  = 'tomato',
+    title       = 'Grafo'
 ):
     plt.figure(figsize=figsize)
     centrality = nx.eigenvector_centrality(graph)
@@ -17,6 +21,9 @@ def plot_graph(
         pos = nx.spring_layout(graph, k=k), 
         with_labels = with_labels,
         font_weight = font_weight,
-        node_color  = [v for n,v in centrality.items()], 
-        edge_color  = edge_color
+        edge_color  = edge_color,
+        font_color  = font_color,
+        node_color  = node_color,
+        node_size   = node_size 
     )
+    plt.title(title)
