@@ -64,6 +64,32 @@ http://localhost:8888/?token=45efe99607fa6......
 
 **Paso 7**: Ir a http://localhost:8888.... como se indica en la consola.
 
+
+## Agregar una nueva depedencia
+
+**Paso 1**: Agregar la nueva depedencia a ´environment.yml´
+
+Conda tiene sus propios repositorios de paquetes pero en caso de tener algun problema siempre se puede usar los paquetes de pip.
+
+```yaml
+dependencies:
+  - SOY_UN_PAQUETE_DE_CONDA
+  - SOY_OTRO_PAQUETE_DE_CONDA
+  - pip:
+    - SOY_UN_PAQUETE_DE_PIP
+    - SOY_OTRO_PAQUETE_DE_PIP
+```
+
+**Paso 2**: Una ques que agregamos el nombre del nuevo pquetes en ´environment.yml´ resta instalarlo. Para esto debemos **actializar** nuestro environment con con lso cambio que realizamos en  ´environment.yml´ de la siguiente forma:
+
+```bash
+$ conda env update -f environment.yml
+```
+**Paso 3**: Finalmente si tenua abierto jupyter lab debemos reinifiar el kernel donde estemso corriendo nuestra notebook para poder cargar la nueva libreria.
+
+![image](https://user-images.githubusercontent.com/962480/145253730-365cb56b-ae26-41b0-a38d-41d505c9ea74.png)
+
+
 ## Tema Material Darker para Jupyter Lab
 
 **Paso 1**: Instalar tema.
