@@ -3,7 +3,11 @@ import logging
 
 
 def distance(embeddings, word_a, word_b, distance_fn=euclidean):
-    return distance_fn(embeddings[word_a], embeddings[word_b])
+    if word_a in embeddings and word_b in embeddings:
+        return distance_fn(embeddings[word_a], embeddings[word_b])
+    else:
+        # logging.info('{} y {}'.format(word_a, word_b))
+        return 0
 
 
 def closest(embeddings, embedding, distance=euclidean):

@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
 import logging
-
+from embedding import glove_word_embeddings
 import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
 from step import step_logger
-from embedding import work_embeddings
 
 def all_columns_contains(df, words):
     return df[df['source'].isin(words) & df['response'].isin(words)]
@@ -56,9 +55,9 @@ def to_unique_works(df):
     return pd.DataFrame(data = rows.keys(), columns = ['word'])
 
 @step_logger
-def to_work_embeddings(df, file_path):
+def to_glove_word_embeddings(df, file_path):
     words = df['word'].values
-    return {work: vector for (work, vector) in work_embeddings(words, file_path)}
+    return {work: vector for (work, vector) in glove_word_embeddings(words, file_path)}
 
 @step_logger
 def lower(df):
@@ -70,7 +69,8 @@ def lower(df):
 def strip(df):
     return df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
+
 @step_logger
-def append_distance(df, embeddings, distance_fn):
-    df[distance_fn.__name__] = df.apply(lambda it: distance_fn(embeddings[it['source']], embeddings[it['response']]), axis = 1)
+def append_calculated_column(df, apply_fn, column_name):
+    df[column_name] = df.apply(apply_fn, axis = 1)
     return df

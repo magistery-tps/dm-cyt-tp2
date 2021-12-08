@@ -19,5 +19,6 @@ dependencies:
   - networkx
   - plotly
   - pip
+  - gensim
   - pip:
     - rich

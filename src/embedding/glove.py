@@ -3,7 +3,7 @@ import logging
 from tqdm import tqdm_notebook as tqdm
 import sys
 
-def work_embeddings(words, file_path):
+def glove_word_embeddings(words, file_path):
     index = {word: True for word in words}
     with tqdm(total=len(index.keys()), file=sys.stdout) as pbar:
         count = 0
