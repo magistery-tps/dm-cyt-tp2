@@ -85,7 +85,7 @@ dependencies:
 ```bash
 $ conda env update -f environment.yml
 ```
-**Paso 3**: Finalmente si tenua abierto jupyter lab debemos reinifiar el kernel donde estemso corriendo nuestra notebook para poder cargar la nueva libreria.
+**Paso 3**: Finalmente si teniamos abierto **jupyter lab**, debemos reinifiar el kernel donde estemso corriendo nuestra notebook para poder cargar la nueva libreria.
 
 ![image](https://user-images.githubusercontent.com/962480/145253730-365cb56b-ae26-41b0-a38d-41d505c9ea74.png)
 
