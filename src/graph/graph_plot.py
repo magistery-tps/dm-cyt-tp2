@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 from matplotlib import pyplot, patches
-from graph import graph_cycles, graph_edge_weights
+from graph import graph_cycles, graph_edge_weights, graph_subsampling
 
 def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='Matriz de adyacencia'):
     """
@@ -44,7 +44,7 @@ def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='M
 
 def plot_graph(
     graph, 
-    k           = 0.17, 
+    k           = 0.01, 
     figsize     = (25, 10), 
     edge_color  = 'gray',
     with_labels = True,
@@ -85,7 +85,8 @@ def graph_summary(
     graph, 
     title='Grafo de palabras',
     font_color  = 'tomato',
-    font_weight = 'bold'
+    font_weight = 'bold',
+    k           = 50
 ):
     print(nx.info(graph))
     print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
@@ -95,10 +96,12 @@ def graph_summary(
 
     plot_adjacency_matrix(graph)
 
+    sub_graph = graph_subsampling(graph, k)
+
     plot_graph(
-        graph, 
-        title=title,
+        sub_graph,
+        title       = title,
         font_color  = font_color,
         font_weight = font_weight,
-        node_color  = [v for v in nx.degree_centrality(graph).values()]
+        node_color  = [v for v in nx.degree_centrality(sub_graph).values()]
     )
