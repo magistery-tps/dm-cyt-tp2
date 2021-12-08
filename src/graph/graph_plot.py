@@ -173,3 +173,43 @@ def plot_cumulative_nodes_degree_hist_comparative(
     plt.xlabel(xlabel)
     plt.title(title)
     plt.legend()
+
+def plot_centrality_mesures_heatmap(
+    graph_a, 
+    graph_b, 
+    label_a, 
+    label_b,
+    figsize = (8,4),
+    title   = 'Correlación de medidas de centralidad'
+):
+    X = [
+        nx.degree_centrality(graph_a).values(),
+        nx.betweenness_centrality(graph_a).values(),
+        nx.closeness_centrality(graph_a).values(),
+        nx.eigenvector_centrality(graph_a).values()
+    ]
+
+    df_graph_b = pd.DataFrame(X, index=[
+        '{} - Degree'.format(label_a),
+        '{} - Betweeness'.format(label_a),
+        '{} - Closeness'.format(label_a),
+        '{} - Eigenvector'.format(label_a)
+    ]).T
+
+    X = [
+        nx.degree_centrality(graph_b).values(),
+        nx.betweenness_centrality(graph_b).values(),
+        nx.closeness_centrality(graph_b).values(),
+        nx.eigenvector_centrality(graph_b).values()
+    ]
+    
+    df_graph_b = pd.DataFrame(X, index=[
+        '{} - Degree'.format(label_b),
+        '{} - Betweeness'.format(label_b),
+        '{} - Closeness'.format(label_b),
+        '{} - Eigenvector'.format(label_b)
+    ]).T
+
+    sns.heatmap(df_graph_b.join(df_graph_b).corr())
+    plt.figure(figsize=figsize)
+    plt.title(title)
