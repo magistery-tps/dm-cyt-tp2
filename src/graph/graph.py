@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+import pandas as pd
 
 def graph_cycles(graph): 
     return nx.cycle_basis(graph.to_undirected())
@@ -12,3 +13,9 @@ def graph_edge_weights(graph):
 
 def graph_subsampling(graph, k = 100):
     return graph.subgraph(random.sample(graph.nodes, k))
+
+def nodes_degree(graph):
+    return pd.DataFrame(
+        graph.degree,
+        columns=['Node','Degree']
+    ).set_index('Node')

@@ -3,7 +3,10 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 from matplotlib import pyplot, patches
-from graph import graph_cycles, graph_edge_weights, graph_subsampling
+from graph import graph_cycles, \
+                  graph_edge_weights, \
+                  graph_subsampling, \
+                  nodes_degree
 
 def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='Matriz de adyacencia'):
     """
@@ -69,17 +72,37 @@ def plot_graph(
     plt.title(title)
 
 def plot_edge_weight_hist(
-    graph, 
-    ylabel = 'Frecuencia',
-    xlabel = 'Peso',
-    title  = 'Distribución del pesos de las aristas',
-    bins   = np.linspace(0, 1, 15)
+    graph,
+    figsize      = (6,4),
+    ylabel       = 'Frecuencia',
+    xlabel       = 'Peso',
+    title        = 'Distribución del pesos de las aristas',
+    title_prefix = '',
+    bins         = np.linspace(0, 1, 15)
 ):
-    plt.figure()
+    title = title_prefix + ': ' + title if title_prefix else title
+    plt.figure(figsize=figsize)
     plt.ylabel(ylabel)
-    plt.xlabel(xlabel);
-    plt.title(title);
+    plt.xlabel(xlabel)
+    plt.title(title)
     plt.hist(graph_edge_weights(graph), bins = bins);
+
+def plot_clustering_coeficient_hist(
+    graph,
+    figsize      = (6,4),
+    ylabel       = 'Frecuencia',
+    xlabel       = 'Coeficiente de clustering',
+    title        = 'Distribución del coeficiente de clustering',
+    title_prefix = '',
+    bins         = np.arange(0.2, 1, 0.05)
+):
+    title = title_prefix + ': ' + title if title_prefix else title
+    plt.figure(figsize=figsize)
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.hist(nx.clustering(graph).values(), bins=bins);
+
 
 def graph_summary(
     graph, 
@@ -105,3 +128,48 @@ def graph_summary(
         font_weight = font_weight,
         node_color  = [v for v in nx.degree_centrality(sub_graph).values()]
     )
+    
+
+def plot_nodes_degree_hist(
+    graph,
+    figsize      = (6,4),
+    ylabel       = 'Frecuencia',
+    xlabel       = 'Grade de nodos',
+    title        = 'Distribución de grados',
+    title_prefix = ''
+):
+    title = title_prefix + ': ' + title if title_prefix else title
+    plt.figure(figsize=figsize)
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.hist(nodes_degree(graph))
+
+
+def plot_cumulative_nodes_degree_hist_comparative(
+    graph_a,
+    graph_b,
+    label_a      = 'Graph A', 
+    label_b      = 'Graph B', 
+    ylabel       = 'Frecuencia',
+    xlabel       = 'Grado',
+    title        = 'Distribución de grados acumulada'
+):
+    plt.figure(figsize=(8,4))
+    nodes_degree(graph_a).hist(
+        density    = True,
+        histtype   = 'step',
+        label      = label_a, 
+        cumulative = -1
+    );
+    nodes_degree(graph_b).hist(
+        density    = True,
+        ax         = plt.gca(),
+        histtype   = 'step',
+        label      = label_b, 
+        cumulative = -1
+    );
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.legend()
