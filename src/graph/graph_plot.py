@@ -109,7 +109,8 @@ def graph_summary(
     title='Grafo de palabras',
     font_color  = 'tomato',
     font_weight = 'bold',
-    k           = 50
+    k_percent   = 0.1,
+    k_layout    = 0.01, 
 ):
     print(nx.info(graph))
     print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
@@ -119,14 +120,15 @@ def graph_summary(
 
     plot_adjacency_matrix(graph)
 
-    sub_graph = graph_subsampling(graph, k)
+    sub_graph = graph_subsampling(graph, k_percent)
 
     plot_graph(
         sub_graph,
         title       = title,
         font_color  = font_color,
         font_weight = font_weight,
-        node_color  = [v for v in nx.degree_centrality(sub_graph).values()]
+        node_color  = [v for v in nx.degree_centrality(sub_graph).values()],
+        k           = k_layout
     )
     
 
