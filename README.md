@@ -51,7 +51,7 @@ $ unzip strength.SWOW-EN.R1.csv.zip
 $ wget https://nlp.stanford.edu/data/glove.840B.300d.zip
 $ unzip glove.840B.300d.zip
 ```
-**Nota:** En algunas ocacioens el servidor de stanford no admite descargas. Como alternativa se puede  descargar desde [kaggle](https://www.kaggle.com/takuok/glove840b300dtxt).
+**Nota:** En algunas ocasiones el servidor de stanford no admite descargas. Como alternativa se puede  descargar desde [kaggle](https://www.kaggle.com/takuok/glove840b300dtxt).
 
 **Paso 6**: Sobre el directorio del proyecto levantamos jupyter lab.
 
