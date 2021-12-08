@@ -45,7 +45,14 @@ $ cd datasets
 $ unzip strength.SWOW-EN.R1.csv.zip
 ```
 
-**Paso 5**: Sobre el directorio del proyecto levantamos jupyter lab.
+**Paso 5**: Descargar y descomprimir word embedding:
+
+```bash
+$ wget https://nlp.stanford.edu/data/glove.840B.300d.zip
+$ unzip glove.840B.300d.zip
+```
+
+**Paso 6**: Sobre el directorio del proyecto levantamos jupyter lab.
 
 ```bash
 $ jupyter lab
@@ -54,7 +61,7 @@ Jupyter Notebook 6.1.4 is running at:
 http://localhost:8888/?token=45efe99607fa6......
 ```
 
-**Paso 6**: Ir a http://localhost:8888.... como se indica en la consola.
+**Paso 7**: Ir a http://localhost:8888.... como se indica en la consola.
 
 ## Tema Material Darker para Jupyter Lab
 
