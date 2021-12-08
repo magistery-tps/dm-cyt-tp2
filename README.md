@@ -72,12 +72,14 @@ http://localhost:8888/?token=45efe99607fa6......
 Conda tiene sus propios repositorios de paquetes pero en caso de tener algun problema siempre se puede usar los paquetes de pip.
 
 ```yaml
-dependencies:
+...
+dep.endencies:
   - SOY_UN_PAQUETE_DE_CONDA
   - SOY_OTRO_PAQUETE_DE_CONDA
   - pip:
     - SOY_UN_PAQUETE_DE_PIP
     - SOY_OTRO_PAQUETE_DE_PIP
+...
 ```
 
 **Paso 2**: Una ques que agregamos el nombre del nuevo pquetes en ´environment.yml´ resta instalarlo. Para esto debemos **actializar** nuestro environment con con lso cambio que realizamos en  ´environment.yml´ de la siguiente forma:
