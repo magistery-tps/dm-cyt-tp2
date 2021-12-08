@@ -29,6 +29,8 @@ def plot_graph(
     plt.title(title)
 
     
+def graph_cycles(graph): return nx.cycle_basis(graph.to_undirected())
+    
 def graph_edges(graph): return graph.edges(data=True)
     
 def graph_summary(
@@ -38,7 +40,9 @@ def graph_summary(
     font_weight = 'bold'
 ):
     print(nx.info(graph))
-    print('Is weigthed:',nx.is_weighted(graph))
+    print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
+    print('Es Dirigido? ', 'Si' if nx.is_directed(graph) else 'No')
+    print('Tiene ciclos? ', 'Si' if len(graph_cycles(graph)) > 0 else 'No')
     plot_adjacency_matrix(graph)
     plot_graph(
         graph, 
