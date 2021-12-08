@@ -73,7 +73,7 @@ Conda tiene sus propios repositorios de paquetes pero en caso de tener algun pro
 
 ```yaml
 ...
-dep.endencies:
+dependencies:
   - SOY_UN_PAQUETE_DE_CONDA
   - SOY_OTRO_PAQUETE_DE_CONDA
   - pip:
