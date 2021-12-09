@@ -1,13 +1,21 @@
 from plot import plot_hist
-
+from step import plot_frequency
 
 def summary(dataset):
+    dataset = dataset \
+        .pipe(plot_frequency, column = 'source') \
+        .pipe(plot_frequency, column = 'response')
+
     plot_hist(
-        lambda: dataset[dataset.google_weight > 0].google_weight, 
-        xlabel = 'Pesos Google News'
+        lambda: dataset[dataset.sww_weight > 0].sww_weight, 
+        xlabel = 'SWW: Probabilidad condicional (response / source)'
     )
     plot_hist(
-        lambda: dataset[dataset.glove_weight > 0].glove_weight, 
-        xlabel = 'Pesos Glove'
+        lambda: dataset[dataset.w2v_google_weight > 0].w2v_google_weight, 
+        xlabel = 'W2V: Pesos Google News'
+    )
+    plot_hist(
+        lambda: dataset[dataset.w2v_glove_weight > 0].w2v_glove_weight, 
+        xlabel = 'W2V: Pesos Glove'
     )
     return dataset.head()

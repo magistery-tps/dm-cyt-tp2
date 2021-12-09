@@ -16,4 +16,4 @@ class GoogleW2VSimilarity:
             return self.model.similarity(word_a, word_b)
         except Exception as e:
             # logger.debub('Failed to calculare similarity bethween {} ans {}.'.format(word_a, word_b))
-            return 0
+            return -1

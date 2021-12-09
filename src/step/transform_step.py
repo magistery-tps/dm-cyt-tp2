@@ -74,3 +74,25 @@ def strip(df):
 def append_calculated_column(df, apply_fn, column_name):
     df[column_name] = df.apply(apply_fn, axis = 1)
     return df
+
+@step_logger
+def append_source_response_freqs(df):
+    source_freq = df \
+        .groupby(by=['source']) \
+        .size() \
+        .reset_index(name='source_freq')
+
+    source_response_freq = df \
+        .groupby(by=['source', 'response']) \
+        .size() \
+        .reset_index(name='source_response_freq')
+
+    return df \
+        .merge(source_freq, on='source') \
+        .merge(source_response_freq, on=['source', 'response'])
+
+@step_logger
+def select(df, columns): return df[columns]
+
+@step_logger
+def distinct(df): return df.drop_duplicates()
