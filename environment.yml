@@ -16,7 +16,7 @@ dependencies:
   - jupyterlab_widgets
   - ipywidgets
   - nodejs
-  - networkx
+  - networkx=2.6.2
   - plotly
   - pip
   - gensim

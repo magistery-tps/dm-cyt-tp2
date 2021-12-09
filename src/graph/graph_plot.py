@@ -13,6 +13,12 @@ from graph import graph_cycles, \
                   nodes_degree, \
                   centrality_measures
 
+def plot_modularity_coeficient(graph):
+    plot_hist(
+        lambda: generate_data(graph),
+        xlabel = 'Diferentes particiones',
+        ylabel = 'Coeficiente de Modularidad'
+    )
 
 def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='Matriz de adyacencia'):
     """
@@ -160,9 +166,9 @@ def plot_centrality_mesures_heatmap(
     label_a, 
     label_b,
     figsize = (8,4),
-    max_iter = 1000
+    max_iter = 5000
 ):
-    df_graph_b = pd.DataFrame(
+    df_graph_a = pd.DataFrame(
         centrality_measures(graph_a, max_iter), 
         index=[
             '{} - Degree'.format(label_a),
@@ -182,6 +188,7 @@ def plot_centrality_mesures_heatmap(
         ]
     ).T
 
-    sns.heatmap(df_graph_b.join(df_graph_b).corr())
     plt.figure(figsize=figsize)
     plt.title('Correlación de medidas de centralidad')
+    sns.heatmap(df_graph_a.join(df_graph_b).corr())
+

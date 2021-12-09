@@ -1,6 +1,16 @@
 import networkx as nx
 import random
 import pandas as pd
+from networkx.algorithms.community import girvan_newman, modularity
+
+def graph_modularity(graph):
+    result = []
+    for module in girvan_newman(graph):
+        try:
+            result.append(modularity(partition_set_to_dict(module), graph))
+        except Exception as exception:
+            pass
+    return result
 
 def graph_cycles(graph): 
     return nx.cycle_basis(graph.to_undirected())
@@ -28,3 +38,10 @@ def centrality_measures(graph, max_iter=1000):
         nx.closeness_centrality(graph).values(),
         nx.eigenvector_centrality(graph, max_iter=max_iter).values()
     ]
+
+def partition_set_to_dict(m):
+    d = {}
+    for i,c in enumerate(m):
+        for n in c:
+            d[n] = i
+    return d

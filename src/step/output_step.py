@@ -1,9 +1,15 @@
 import logging
+import matplotlib.pyplot as plt
 
 def plot_frequency(df, column):
+    plt.figure(figsize=(10,4))
     new_df = df[column].str.split(expand=True).stack().value_counts().reset_index()
-    new_df.columns = ['Word', 'Frequency'] 
-    new_df['Frequency'].plot(x='Words', y='Frequnecy', title='Words frequency', figsize=(6, 4))
+    new_df.columns = ['Word', 'Frequency']
+    new_df['Frequency'].plot(
+        xlabel  = 'Words', 
+        ylabel  = 'Frequnecy', 
+        title   = '{} words frequency'.format(column.capitalize())
+    )
     return df
 
 def log_unique_words(df):
