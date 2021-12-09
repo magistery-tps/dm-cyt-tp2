@@ -1,12 +1,18 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib import pyplot, patches
+from plot import plot_hist
+
 import numpy as np
 import pandas as pd
 import networkx as nx
-from matplotlib import pyplot, patches
+
 from graph import graph_cycles, \
                   graph_edge_weights, \
                   graph_subsampling, \
-                  nodes_degree
+                  nodes_degree, \
+                  centrality_measures
+
 
 def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='Matriz de adyacencia'):
     """
@@ -71,38 +77,27 @@ def plot_graph(
     )
     plt.title(title)
 
-def plot_edge_weight_hist(
-    graph,
-    figsize      = (6,4),
-    ylabel       = 'Frecuencia',
-    xlabel       = 'Peso',
-    title        = 'Distribución del pesos de las aristas',
-    title_prefix = '',
-    bins         = np.linspace(0, 1, 15)
-):
-    title = title_prefix + ': ' + title if title_prefix else title
-    plt.figure(figsize=figsize)
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
-    plt.title(title)
-    plt.hist(graph_edge_weights(graph), bins = bins);
+def plot_edge_weight_hist(graph, title = ''):
+    plot_hist(
+        lambda: graph_edge_weights(graph), 
+        xlabel = 'Peso',
+        title  = (title + ' - ' if title else '') + 'Distribución del pesos de las aristas'
+    ) 
 
-def plot_clustering_coeficient_hist(
-    graph,
-    figsize      = (6,4),
-    ylabel       = 'Frecuencia',
-    xlabel       = 'Coeficiente de clustering',
-    title        = 'Distribución del coeficiente de clustering',
-    title_prefix = '',
-    bins         = np.arange(0.2, 1, 0.05)
-):
-    title = title_prefix + ': ' + title if title_prefix else title
-    plt.figure(figsize=figsize)
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
-    plt.title(title)
-    plt.hist(nx.clustering(graph).values(), bins=bins);
+def plot_clustering_coeficient_hist(graph, title = ''):
+    plot_hist(
+        lambda: nx.clustering(graph).values(), 
+        xlabel = 'Coeficiente de clustering',
+        title  = (title + ' - ' if title else '') + 'Distribución del coeficiente de clustering',
+        bins   = np.arange(0.2, 1, 0.05)
+    )
 
+def plot_nodes_degree_hist(graph, title = ''):    
+    plot_hist(
+        lambda: nodes_degree(graph), 
+        xlabel = 'Grade de nodos',
+        title  = (title + ' - ' if title else '') + 'Distribucion de grado'
+    )
 
 def graph_summary(
     graph, 
@@ -130,23 +125,6 @@ def graph_summary(
         node_color  = [v for v in nx.degree_centrality(sub_graph).values()],
         k           = k_layout
     )
-    
-
-def plot_nodes_degree_hist(
-    graph,
-    figsize      = (6,4),
-    ylabel       = 'Frecuencia',
-    xlabel       = 'Grade de nodos',
-    title        = 'Distribución de grados',
-    title_prefix = ''
-):
-    title = title_prefix + ': ' + title if title_prefix else title
-    plt.figure(figsize=figsize)
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
-    plt.title(title)
-    plt.hist(nodes_degree(graph))
-
 
 def plot_cumulative_nodes_degree_hist_comparative(
     graph_a,
@@ -182,36 +160,28 @@ def plot_centrality_mesures_heatmap(
     label_a, 
     label_b,
     figsize = (8,4),
-    title   = 'Correlación de medidas de centralidad'
+    max_iter = 1000
 ):
-    X = [
-        nx.degree_centrality(graph_a).values(),
-        nx.betweenness_centrality(graph_a).values(),
-        nx.closeness_centrality(graph_a).values(),
-        nx.eigenvector_centrality(graph_a).values()
-    ]
+    df_graph_b = pd.DataFrame(
+        centrality_measures(graph_a, max_iter), 
+        index=[
+            '{} - Degree'.format(label_a),
+            '{} - Betweeness'.format(label_a),
+            '{} - Closeness'.format(label_a),
+            '{} - Eigenvector'.format(label_a)
+        ]
+    ).T
 
-    df_graph_b = pd.DataFrame(X, index=[
-        '{} - Degree'.format(label_a),
-        '{} - Betweeness'.format(label_a),
-        '{} - Closeness'.format(label_a),
-        '{} - Eigenvector'.format(label_a)
-    ]).T
-
-    X = [
-        nx.degree_centrality(graph_b).values(),
-        nx.betweenness_centrality(graph_b).values(),
-        nx.closeness_centrality(graph_b).values(),
-        nx.eigenvector_centrality(graph_b).values()
-    ]
-    
-    df_graph_b = pd.DataFrame(X, index=[
-        '{} - Degree'.format(label_b),
-        '{} - Betweeness'.format(label_b),
-        '{} - Closeness'.format(label_b),
-        '{} - Eigenvector'.format(label_b)
-    ]).T
+    df_graph_b = pd.DataFrame(
+        centrality_measures(graph_b, max_iter), 
+        index=[
+            '{} - Degree'.format(label_b),
+            '{} - Betweeness'.format(label_b),
+            '{} - Closeness'.format(label_b),
+            '{} - Eigenvector'.format(label_b)
+        ]
+    ).T
 
     sns.heatmap(df_graph_b.join(df_graph_b).corr())
     plt.figure(figsize=figsize)
-    plt.title(title)
+    plt.title('Correlación de medidas de centralidad')

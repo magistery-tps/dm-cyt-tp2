@@ -20,3 +20,11 @@ def nodes_degree(graph):
         graph.degree,
         columns=['Node','Degree']
     ).set_index('Node')
+
+def centrality_measures(graph, max_iter=1000):
+    return [
+        nx.degree_centrality(graph).values(),
+        nx.betweenness_centrality(graph).values(),
+        nx.closeness_centrality(graph).values(),
+        nx.eigenvector_centrality(graph, max_iter=max_iter).values()
+    ]
