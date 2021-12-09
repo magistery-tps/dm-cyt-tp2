@@ -11,7 +11,8 @@ from graph import graph_cycles, \
                   graph_edge_weights, \
                   graph_subsampling, \
                   nodes_degree, \
-                  centrality_measures
+                  centrality_measures, \
+                  subgraph_without_isolated_nodes
 
 def plot_modularity_coeficient(graph):
     plot_hist(
@@ -122,6 +123,7 @@ def graph_summary(
     plot_adjacency_matrix(graph)
 
     sub_graph = graph_subsampling(graph, k_percent)
+    sub_graph = subgraph_without_isolated_nodes(sub_graph)
 
     plot_graph(
         sub_graph,

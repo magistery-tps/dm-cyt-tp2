@@ -3,6 +3,11 @@ import random
 import pandas as pd
 from networkx.algorithms.community import girvan_newman, modularity
 
+def isolated_nodes(graph): return set(nx.isolates(graph))
+
+def subgraph_without_isolated_nodes(graph):
+    return graph.subgraph(set(graph.nodes) - isolated_nodes(graph))
+
 def graph_modularity(graph):
     result = []
     for module in girvan_newman(graph):
@@ -23,7 +28,8 @@ def graph_edge_weights(graph):
 
 def graph_subsampling(graph, percent = 0.1):
     k = int(len(graph.nodes) * percent)
-    return graph.subgraph(random.sample(graph.nodes, k))
+    nodes = random.sample(graph.nodes, k)
+    return graph.subgraph(nodes)
 
 def nodes_degree(graph):
     return pd.DataFrame(
