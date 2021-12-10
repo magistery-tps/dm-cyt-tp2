@@ -1,16 +1,14 @@
 from scipy.spatial.distance import euclidean
 import logging
 
-
-def distance_to_weight(distance): return 1 - distance if distance >= 0 else 0 
+def distance_to_weight(cosine_dsitance): cosine_dsitance
 
 def distance(embeddings, word_a, word_b, distance_fn=euclidean):
     if word_a in embeddings and word_b in embeddings:
         return distance_fn(embeddings[word_a], embeddings[word_b])
     else:
-        # logging.info('{} y {}'.format(word_a, word_b))
-        return -1
-
+        logging.debug('Cant calculate cosine similarity bethween {} and {}.'.format(word_a, word_b))
+        return None
 
 def closest(embeddings, embedding, distance=euclidean):
     return sorted(

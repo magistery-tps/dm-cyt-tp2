@@ -116,7 +116,7 @@ def graph_summary(
 ):
     print(nx.info(graph))
     print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
-    print('Es Dirigido? ', 'Si' if nx.is_directed(graph) else 'No')
+    print('Es dirigido? ', 'Si' if nx.is_directed(graph) else 'No')
     print('Tiene ciclos? ', 'Si' if len(graph_cycles(graph)) > 0 else 'No')
     print('Tiene multiples aristas? ', 'Si' if graph.is_multigraph() else 'No')
 

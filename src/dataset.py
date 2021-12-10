@@ -2,6 +2,7 @@ from plot import plot_hist
 from step import plot_frequency
 
 def summary(dataset):
+    print(dataset.shape)
     dataset = dataset \
         .pipe(plot_frequency, column = 'source') \
         .pipe(plot_frequency, column = 'response')
