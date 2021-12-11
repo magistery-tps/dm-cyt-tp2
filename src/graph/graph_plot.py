@@ -65,16 +65,18 @@ def plot_graph(
     figsize         = (25, 10), 
     edge_color      = 'gray',
     with_labels     = True,
-    font_color      = 'black',
-    font_weight     = 'normal',
-    node_size       = 1000, 
+    font_color      = 'tomato',
+    font_weight     = 'bold',
+    node_size       = 2500, 
     node_color      = 'tomato',
     title           = 'Grafo'
 ):
     plt.figure(figsize=figsize)
     centrality = nx.eigenvector_centrality(graph)
-    pos = nx.spring_layout(graph, k=k)
-        
+    pos        = nx.spring_layout(graph, k=k)
+    weights    = nx.get_edge_attributes(graph, 'weight')
+    labels     = {pair: round(weight, weight_desimals)  for pair, weight in weights.items()}
+    
     nx.draw(
         graph,
         pos, 
@@ -83,10 +85,9 @@ def plot_graph(
         edge_color  = edge_color,
         font_color  = font_color,
         node_color  = node_color,
-        node_size   = node_size 
+        node_size   = node_size
     )
 
-    labels = {pair: round(weight, weight_desimals)  for pair, weight in nx.get_edge_attributes(graph, 'weight').items()}
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
 
     plt.title(title)
@@ -119,7 +120,8 @@ def graph_summary(
     font_color  = 'tomato',
     font_weight = 'bold',
     k_percent   = 0.1,
-    k_layout    = 0.01, 
+    k_layout    = 0.01,
+    node_size   = 3800 
 ):
     print(nx.info(graph))
     print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
@@ -138,7 +140,8 @@ def graph_summary(
         font_color  = font_color,
         font_weight = font_weight,
         node_color  = [v for v in nx.degree_centrality(sub_graph).values()],
-        k           = k_layout
+        k           = k_layout,
+        node_size   = node_size
     )
 
 def plot_cumulative_nodes_degree_hist_comparative(
