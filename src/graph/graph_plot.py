@@ -17,7 +17,9 @@ from graph import graph_cycles, \
                   graph_subsampling, \
                   nodes_degree, \
                   centrality_measures, \
-                  subgraph_without_isolated_nodes
+                  subgraph_without_isolated_nodes, \
+                  graph_largest_component, \
+                  to_undirected_graph
 
 
 def plot_adjacency_matrix2(
@@ -150,6 +152,7 @@ def plot_degree_dist(graph, title = ''):
     )
 
 def graph_summary(
+    dataset,
     graph, 
     title='Grafo de palabras',
     font_color  = 'tomato',
@@ -168,9 +171,12 @@ def graph_summary(
     print('- ¿Es un grafo con multiples aristas? ', 'Si' if graph.is_multigraph() else 'No')
 
     plot_adjacency_matrix2(graph, title= title + ': Matriz de adyacencia')
-
+    
+    
     sub_graph = graph_subsampling(graph, k_percent)
+    sub_graph = to_undirected_graph(dataset, sub_graph)
     sub_graph = subgraph_without_isolated_nodes(sub_graph)
+    sub_graph = graph_largest_component(sub_graph)
 
     plot_graph(
         sub_graph,

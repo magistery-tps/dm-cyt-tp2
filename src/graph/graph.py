@@ -5,11 +5,15 @@ from networkx.algorithms.community import girvan_newman, modularity
 from graph.graph_factory import GraphFactory
 
 
-def graph_components_node_size(graph):
+def graph_components_nodes_size(graph):
     return [len(c) for c in sorted(nx.connected_components(graph), key=len, reverse=True)]
 
 def graph_largest_component(graph):
-    if nx.is_connected(graph):
+    if nx.is_directed(graph):
+        # Cuando el grafo esta conformado por mas de un subgrafo no conexo...
+        nodes = max(nx.connected_components(graph), key=len)
+        return graph.subgraph(nodes)
+    elif nx.is_connected(graph):
         return graph
     else: # Cuando el grafo esta conformado por mas de un subgrafo no conexo...
         nodes = max(nx.connected_components(graph), key=len)
@@ -18,15 +22,19 @@ def graph_largest_component(graph):
 def largest_component_diameter(graph):
     return nx.diameter(graph_largest_component(graph))
 
+def largest_component_average_shortest_path_length(graph):
+    return nx.average_shortest_path_length(graph_largest_component(graph))
 
 def subgraph_without_isolated_nodes(graph):
     return graph.subgraph(set(graph.nodes) - isolated_nodes(graph))
 
 def to_undirected_graph(graph_dataset, graph):
-    undirected_graph = GraphFactory.create_undirected_weihted_graph(graph_dataset)
-    undirected_graph = undirected_graph.subgraph(list(graph.nodes))
-    return subgraph_without_isolated_nodes(undirected_graph)
-
+    if nx.is_directed(graph):    
+        undirected_graph = GraphFactory.create_undirected_weihted_graph(graph_dataset)
+        undirected_graph = undirected_graph.subgraph(list(graph.nodes))
+        return subgraph_without_isolated_nodes(undirected_graph)
+    else:
+        return graph
 
 def isolated_nodes(graph): return set(nx.isolates(graph))
 
