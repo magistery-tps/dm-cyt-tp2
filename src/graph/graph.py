@@ -2,11 +2,20 @@ import networkx as nx
 import random
 import pandas as pd
 from networkx.algorithms.community import girvan_newman, modularity
+from graph.graph_factory import GraphFactory
 
-def isolated_nodes(graph): return set(nx.isolates(graph))
 
 def subgraph_without_isolated_nodes(graph):
     return graph.subgraph(set(graph.nodes) - isolated_nodes(graph))
+
+def to_undirected_graph(graph_dataset, graph):
+    undirected_graph = GraphFactory.create_undirected_weihted_graph(graph_dataset)
+    undirected_graph = undirected_graph.subgraph(list(graph.nodes))
+    return subgraph_without_isolated_nodes(undirected_graph)
+
+
+def isolated_nodes(graph): return set(nx.isolates(graph))
+
 
 def graph_modularity(graph):
     result = []
