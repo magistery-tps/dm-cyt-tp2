@@ -59,22 +59,25 @@ def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='M
     pyplot.title(title)
 
 def plot_graph(
-    graph, 
-    k           = 0.01, 
-    figsize     = (25, 10), 
-    edge_color  = 'gray',
-    with_labels = True,
-    font_color  = 'black',
-    font_weight = 'normal',
-    node_size   = 1000, 
-    node_color  = 'tomato',
-    title       = 'Grafo'
+    graph,
+    k               = 0.01,
+    weight_desimals = 2,
+    figsize         = (25, 10), 
+    edge_color      = 'gray',
+    with_labels     = True,
+    font_color      = 'black',
+    font_weight     = 'normal',
+    node_size       = 1000, 
+    node_color      = 'tomato',
+    title           = 'Grafo'
 ):
     plt.figure(figsize=figsize)
     centrality = nx.eigenvector_centrality(graph)
+    pos = nx.spring_layout(graph, k=k)
+        
     nx.draw(
         graph,
-        pos = nx.spring_layout(graph, k=k), 
+        pos, 
         with_labels = with_labels,
         font_weight = font_weight,
         edge_color  = edge_color,
@@ -82,6 +85,10 @@ def plot_graph(
         node_color  = node_color,
         node_size   = node_size 
     )
+
+    labels = {pair: round(weight, weight_desimals)  for pair, weight in nx.get_edge_attributes(graph, 'weight').items()}
+    nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+
     plt.title(title)
 
 def plot_edge_weight_hist(graph, title = ''):
