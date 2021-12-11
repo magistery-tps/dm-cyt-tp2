@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 
-*.csv
+**/SWOW-EN.R100.*
 **/glove.840B.300d.*
 **/GoogleNews-vectors-negative300.*
