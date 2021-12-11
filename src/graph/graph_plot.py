@@ -20,7 +20,12 @@ from graph import graph_cycles, \
                   subgraph_without_isolated_nodes
 
 
-def plot_adjacency_matrix2(graph, title='Matriz de adyacencia'):
+def plot_adjacency_matrix2(
+    graph, 
+    title   = 'Matriz de adyacencia',
+    figsize = DEFAULT_FIGURE_SIZE
+):
+    plt.figure(figsize = figsize)
     plt.matshow(nx.adjacency_matrix(graph).todense());
     plt.colorbar();
     plt.suptitle(title)
@@ -153,11 +158,14 @@ def graph_summary(
     k_layout    = 0.01,
     node_size   = 3800 
 ):
+    print('Información:')
     print(nx.info(graph))
-    print('Es pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
-    print('Es dirigido? ', 'Si' if nx.is_directed(graph) else 'No')
-    print('Tiene ciclos? ', 'Si' if len(graph_cycles(graph)) > 0 else 'No')
-    print('Tiene multiples aristas? ', 'Si' if graph.is_multigraph() else 'No')
+    if not nx.is_directed(graph):
+        print('- ¿Es un grafo conexo? ', 'Si' if nx.is_connected(graph) else 'No')
+    print('- ¿Es un grafo pesado? ', 'Si' if nx.is_weighted(graph) else 'No')
+    print('- ¿Es un grafo dirigido? ', 'Si' if nx.is_directed(graph) else 'No')
+    print('- ¿Es un grafo con ciclos? ', 'Si' if len(graph_cycles(graph)) > 0 else 'No')
+    print('- ¿Es un grafo con multiples aristas? ', 'Si' if graph.is_multigraph() else 'No')
 
     plot_adjacency_matrix2(graph, title= title + ': Matriz de adyacencia')
 

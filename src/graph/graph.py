@@ -5,6 +5,20 @@ from networkx.algorithms.community import girvan_newman, modularity
 from graph.graph_factory import GraphFactory
 
 
+def graph_components_node_size(graph):
+    return [len(c) for c in sorted(nx.connected_components(graph), key=len, reverse=True)]
+
+def graph_largest_component(graph):
+    if nx.is_connected(graph):
+        return graph
+    else: # Cuando el grafo esta conformado por mas de un subgrafo no conexo...
+        nodes = max(nx.connected_components(graph), key=len)
+        return graph.subgraph(nodes)
+
+def largest_component_diameter(graph):
+    return nx.diameter(graph_largest_component(graph))
+
+
 def subgraph_without_isolated_nodes(graph):
     return graph.subgraph(set(graph.nodes) - isolated_nodes(graph))
 
@@ -35,8 +49,9 @@ def graph_edges(graph):
 def graph_edge_weights(graph): 
     return [att['weight'] for n1, n2, att in graph.edges(data=True)]
 
-def graph_subsampling(graph, percent = 0.1):
+def graph_subsampling(graph, percent = 0.1, seed=10):
     k = int(len(graph.nodes) * percent)
+    random.seed(seed)
     nodes = random.sample(graph.nodes, k)
     return graph.subgraph(nodes)
 
