@@ -9,14 +9,17 @@ def summary(dataset):
 
     plot_hist(
         lambda: dataset[dataset.sww_weight > 0].sww_weight, 
-        xlabel = 'SWW: Probabilidad condicional (response / source)'
+        xlabel = 'SWW: Probabilidad condicional (response / source)',
+        density = True
     )
     plot_hist(
         lambda: dataset[dataset.w2v_google_weight > 0].w2v_google_weight, 
-        xlabel = 'W2V: Pesos Google News'
+        xlabel = 'W2V: Pesos Google News',
+        density = True
     )
     plot_hist(
         lambda: dataset[dataset.w2v_glove_weight > 0].w2v_glove_weight, 
-        xlabel = 'W2V: Pesos Glove'
+        xlabel = 'W2V: Pesos Glove',
+        density = True
     )
     return dataset.head()

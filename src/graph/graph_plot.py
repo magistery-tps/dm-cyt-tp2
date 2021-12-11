@@ -6,6 +6,11 @@ from plot import plot_hist
 import numpy as np
 import pandas as pd
 import networkx as nx
+from plot import DEFAULT_FIGURE_SIZE
+
+def normalize(values):
+    return (values - np.min(values)) / (np.max(values) - np.min(values))
+
 
 from graph import graph_cycles, \
                   graph_edge_weights, \
@@ -14,6 +19,12 @@ from graph import graph_cycles, \
                   centrality_measures, \
                   subgraph_without_isolated_nodes
 
+
+def plot_adjacency_matrix2(graph, title='Matriz de adyacencia'):
+    plt.matshow(nx.adjacency_matrix(graph).todense());
+    plt.colorbar();
+    plt.suptitle(title)
+
 def plot_modularity_coeficient(graph):
     plot_hist(
         lambda: generate_data(graph),
@@ -21,7 +32,14 @@ def plot_modularity_coeficient(graph):
         ylabel = 'Coeficiente de Modularidad'
     )
 
-def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='Matriz de adyacencia'):
+def plot_adjacency_matrix(
+    G, 
+    node_order = None, 
+    partitions = [], 
+    colors     = [], 
+    title      = 'Matriz de adyacencia',
+    figsize    = DEFAULT_FIGURE_SIZE
+):
     """
     - G is a netorkx graph
     - node_order (optional) is a list of nodes, where each node in G
@@ -36,27 +54,32 @@ def plot_adjacency_matrix(G, node_order=None, partitions=[], colors=[], title='M
     adjacency_matrix = nx.to_numpy_matrix(G, dtype=np.bool, nodelist=node_order)
 
     #Plot adjacency matrix in toned-down black and white
-    fig = pyplot.figure(figsize=(5, 5)) # in inches
-    pyplot.imshow(adjacency_matrix,
-                  cmap="Greys",
-                  interpolation="none")
-    
+    fig = pyplot.figure(figsize=figsize) # in inches
+    pyplot.imshow(
+        adjacency_matrix,
+        cmap          = "Greys",
+        interpolation = "none"
+    )
+
     # The rest is just if you have sorted nodes by a partition and want to
     # highlight the module boundaries
     assert len(partitions) == len(colors)
+
     ax = pyplot.gca()
     for partition, color in zip(partitions, colors):
         current_idx = 0
         for module in partition:
-            ax.add_patch(patches.Rectangle((current_idx, current_idx),
-                                          len(module), # Width
-                                          len(module), # Height
-                                          facecolor="none",
-                                          edgecolor=color,
-                                          linewidth="1"))
+            ax.add_patch(patches.Rectangle(
+                (current_idx, current_idx),
+                len(module), # Width
+                len(module), # Height
+                facecolor = "none",
+                edgecolor = color,
+                linewidth = "1"
+            ))
             current_idx += len(module)
-    
     pyplot.title(title)
+
 
 def plot_graph(
     graph,
@@ -92,26 +115,33 @@ def plot_graph(
 
     plt.title(title)
 
-def plot_edge_weight_hist(graph, title = ''):
+def plot_weight_dist(graph, title = ''):
     plot_hist(
-        lambda: graph_edge_weights(graph), 
-        xlabel = 'Peso',
-        title  = (title + ' - ' if title else '') + 'Distribución del pesos de las aristas'
-    ) 
-
-def plot_clustering_coeficient_hist(graph, title = ''):
-    plot_hist(
-        lambda: nx.clustering(graph).values(), 
-        xlabel = 'Coeficiente de clustering',
-        title  = (title + ' - ' if title else '') + 'Distribución del coeficiente de clustering',
-        bins   = np.arange(0.2, 1, 0.05)
+        lambda: normalize(graph_edge_weights(graph)), 
+        xlabel  = 'Peso',
+        title   = (title + ' - ' if title else '') + 'Distribución del pesos de las aristas',
+        density = True
     )
 
-def plot_nodes_degree_hist(graph, title = ''):    
+def plot_clustering_coeficient_dist(
+    graph, 
+    title = '',
+    bins  = np.arange(0, 1, 0.1)
+):
     plot_hist(
-        lambda: nodes_degree(graph), 
+        lambda: list(nx.clustering(graph).values()), 
+        xlabel  = 'Coeficiente de clustering',
+        title   = (title + ' - ' if title else '') + 'Distribución del coeficiente de clustering',
+        bins    = bins,
+        density = True
+    )
+
+def plot_degree_dist(graph, title = ''):    
+    plot_hist(
+        lambda: normalize(nodes_degree(graph)), 
         xlabel = 'Grade de nodos',
-        title  = (title + ' - ' if title else '') + 'Distribucion de grado'
+        title  = (title + ' - ' if title else '') + 'Distribucion de grado',
+        density = True
     )
 
 def graph_summary(
@@ -129,14 +159,14 @@ def graph_summary(
     print('Tiene ciclos? ', 'Si' if len(graph_cycles(graph)) > 0 else 'No')
     print('Tiene multiples aristas? ', 'Si' if graph.is_multigraph() else 'No')
 
-    plot_adjacency_matrix(graph)
+    plot_adjacency_matrix2(graph, title= title + ': Matriz de adyacencia')
 
     sub_graph = graph_subsampling(graph, k_percent)
     sub_graph = subgraph_without_isolated_nodes(sub_graph)
 
     plot_graph(
         sub_graph,
-        title       = title,
+        title       = title + ': Grafo de palabras pesado',
         font_color  = font_color,
         font_weight = font_weight,
         node_color  = [v for v in nx.degree_centrality(sub_graph).values()],
@@ -144,28 +174,30 @@ def graph_summary(
         node_size   = node_size
     )
 
-def plot_cumulative_nodes_degree_hist_comparative(
+def plot_cumulative_degree_dists(
     graph_a,
     graph_b,
-    label_a      = 'Graph A', 
-    label_b      = 'Graph B', 
-    ylabel       = 'Frecuencia',
-    xlabel       = 'Grado',
-    title        = 'Distribución de grados acumulada'
+    label_a = 'Graph A', 
+    label_b = 'Graph B', 
+    ylabel  = 'Frecuencia',
+    xlabel  = 'Grado',
+    title   = 'Distribución de grados acumulada',
+    figsize = DEFAULT_FIGURE_SIZE
 ):
-    plt.figure(figsize=(8,4))
     nodes_degree(graph_a).hist(
         density    = True,
         histtype   = 'step',
         label      = label_a, 
-        cumulative = -1
+        cumulative = -1,
+        figsize    = figsize
     );
     nodes_degree(graph_b).hist(
         density    = True,
         ax         = plt.gca(),
         histtype   = 'step',
         label      = label_b, 
-        cumulative = -1
+        cumulative = -1,
+        figsize    = figsize
     );
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
@@ -177,7 +209,7 @@ def plot_centrality_mesures_heatmap(
     graph_b, 
     label_a, 
     label_b,
-    figsize = (8,4),
+    figsize = DEFAULT_FIGURE_SIZE,
     max_iter = 5000
 ):
     df_graph_a = pd.DataFrame(
@@ -202,5 +234,5 @@ def plot_centrality_mesures_heatmap(
 
     plt.figure(figsize=figsize)
     plt.title('Correlación de medidas de centralidad')
-    sns.heatmap(df_graph_a.join(df_graph_b).corr())
-
+    hm = sns.heatmap(df_graph_a.join(df_graph_b).corr())
+    hm.set_xticklabels(hm.get_xticklabels(), rotation=45, horizontalalignment='right')
