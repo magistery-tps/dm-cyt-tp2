@@ -6,7 +6,7 @@
 * [Enunciado](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Enunciado.pdf)
 * **Notebooks**
     * [Preprocessing](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/preprocessing.ipynb) 
-    * [Analisys](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/analisys.ipynb) 
+    * [Analysis](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/analysis.ipynb) 
 
 ## Pre-Requisitos
 
