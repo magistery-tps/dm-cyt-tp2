@@ -1,7 +1,7 @@
 # UBA - Maestria en Explotación de Datos y Descubrimiento de Conocimiento - Datamining en Ciencia y Tecnologia
 
 
-## Trabajos Prácticos 2
+## Trabajos Prácticos 2: Redes de palabras
 
 * [Enunciado](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Enunciado.pdf)
 * **Notebooks**
