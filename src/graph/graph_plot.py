@@ -22,6 +22,44 @@ from graph import graph_cycles, \
                   to_undirected_graph
 
 
+
+
+def plot_graph_eigenvector_centrality(graph, title):
+    plot_graph(
+        graph,
+        node_color = [v for v in nx.eigenvector_centrality(graph).values()],        
+        k       = 0.5,
+        figsize = (15, 4.5),
+        title   = title + ': Centralidad de autovectores' 
+    )
+    
+def plot_degree_centrality(graph, title):
+    plot_graph(
+        graph,
+        node_color = [v for v in nx.degree_centrality(graph).values()],        
+        k       = 0.5,
+        figsize = (15, 4.5),
+        title   = title + ': Centralidad de grardo' 
+    )
+
+def plot_betweenness_centrality(graph, title):
+    plot_graph(
+        graph,
+        node_color = [v for v in nx.betweenness_centrality(graph).values()],        
+        k       = 0.5,
+        figsize = (15, 4.5),
+        title   = title + ': Centralidad de intermediación' 
+    )
+
+def plot_closeness_centrality(graph, title):
+    plot_graph(
+        graph,
+        node_color = [v for v in nx.closeness_centrality(graph).values()],        
+        k       = 0.5,
+        figsize = (15, 4.5),
+        title   = title + ': Centralidad de cercania' 
+    )
+
 def plot_adjacency_matrix2(
     graph, 
     title   = 'Matriz de adyacencia',
@@ -92,17 +130,16 @@ def plot_graph(
     graph,
     k               = 0.01,
     weight_desimals = 2,
-    figsize         = (25, 10), 
+    figsize         = (15, 6), 
     edge_color      = 'gray',
     with_labels     = True,
     font_color      = 'tomato',
     font_weight     = 'bold',
-    node_size       = 2500, 
-    node_color      = 'tomato',
+    node_size       = 3800, 
+    node_color      = 'blue',
     title           = 'Grafo'
 ):
     plt.figure(figsize=figsize)
-    centrality = nx.eigenvector_centrality(graph)
     pos        = nx.spring_layout(graph, k=k)
     weights    = nx.get_edge_attributes(graph, 'weight')
     labels     = {pair: round(weight, weight_desimals)  for pair, weight in weights.items()}
@@ -119,6 +156,10 @@ def plot_graph(
     )
 
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+
+    if not isinstance(node_color, str):
+        sm = plt.cm.ScalarMappable(norm = plt.Normalize(vmin=min(node_color), vmax=max(node_color)))
+        plt.colorbar(sm)
 
     plt.title(title)
 

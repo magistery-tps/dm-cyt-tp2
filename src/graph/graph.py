@@ -5,6 +5,17 @@ from networkx.algorithms.community import girvan_newman, modularity
 from graph.graph_factory import GraphFactory
 
 
+def top_degree_centrality_subgraph(graph, top=30):
+    nodes = top_degree_centrality(graph, top)
+    return graph.subgraph(dict(nodes))
+
+def desc_degree_centrality(graph):
+    centrality = nx.degree_centrality(graph)
+    return sorted(centrality.items(), key=lambda x: x[1], reverse=True)
+
+def top_degree_centrality(graph, limit=10):
+    return desc_degree_centrality(graph)[1:limit]
+
 def graph_components_nodes_size(graph):
     return [len(c) for c in sorted(nx.connected_components(graph), key=len, reverse=True)]
 
