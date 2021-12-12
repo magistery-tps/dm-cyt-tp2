@@ -24,36 +24,52 @@ from graph import graph_cycles, \
 
 
 
-def plot_graph_eigenvector_centrality(graph, title):
+def plot_graph_eigenvector_centrality(graph, title, nodes_distance = 5):
     plot_graph(
         graph,
-        node_color = [v for v in nx.eigenvector_centrality(graph).values()],        
-        figsize = (15, 5),
-        title   = title + ': Centralidad de autovectores' 
+        node_color     = [v for v in nx.eigenvector_centrality(graph).values()],        
+        figsize        = (15, 5),
+        title          = title + ': Centralidad de autovectores',
+        with_labels    = False,
+        with_weights   = False,
+        node_size      = 500,
+        nodes_distance = nodes_distance
     )
     
-def plot_degree_centrality(graph, title):
+def plot_degree_centrality(graph, title, nodes_distance = 5):
     plot_graph(
         graph,
-        node_color = [v for v in nx.degree_centrality(graph).values()],        
-        figsize = (15, 5),
-        title   = title + ': Centralidad de grardo' 
+        node_color    = [v for v in nx.degree_centrality(graph).values()],        
+        figsize        = (15, 5),
+        title          = title + ': Centralidad de grardo',
+        with_labels    = False,
+        with_weights   = False,
+        node_size      = 500,
+        nodes_distance = nodes_distance
     )
 
-def plot_betweenness_centrality(graph, title):
+def plot_betweenness_centrality(graph, title, nodes_distance = 5):
     plot_graph(
         graph,
-        node_color = [v for v in nx.betweenness_centrality(graph).values()],        
-        figsize = (15, 5),
-        title   = title + ': Centralidad de intermediación' 
+        node_color     = [v for v in nx.betweenness_centrality(graph).values()],        
+        figsize        = (15, 5),
+        title          = title + ': Centralidad de intermediación',
+        with_labels    = False,
+        with_weights   = False,
+        node_size      = 500,
+        nodes_distance = nodes_distance
     )
 
-def plot_closeness_centrality(graph, title):
+def plot_closeness_centrality(graph, title, nodes_distance = 5):
     plot_graph(
         graph,
-        node_color = [v for v in nx.closeness_centrality(graph).values()],        
-        figsize = (15, 5),
-        title   = title + ': Centralidad de cercania' 
+        node_color     = [v for v in nx.closeness_centrality(graph).values()],        
+        figsize        = (15, 5),
+        title          = title + ': Centralidad de cercania',
+        with_labels    = False,
+        with_weights   = False,
+        node_size      = 500,
+        nodes_distance = nodes_distance
     )
 
 def plot_adjacency_matrix2(
@@ -130,6 +146,7 @@ def plot_graph(
     figsize          = (15, 6), 
     edge_color       = 'gray',
     with_labels      = True,
+    with_weights     = True,
     font_color       = 'tomato',
     font_weight      = 'bold',
     node_size        = 3800, 
@@ -159,7 +176,8 @@ def plot_graph(
         alpha       = alpha
     )
 
-    nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+    if with_weights:
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
 
     if not isinstance(node_color, str):
         sm = plt.cm.ScalarMappable(
@@ -280,20 +298,20 @@ def plot_centrality_mesures_heatmap(
     df_graph_a = pd.DataFrame(
         centrality_measures(graph_a, max_iter), 
         index=[
-            '{} - Degree'.format(label_a),
-            '{} - Betweeness'.format(label_a),
-            '{} - Closeness'.format(label_a),
-            '{} - Eigenvector'.format(label_a)
+            '{} - Grado'.format(label_a),
+            '{} - Intermediación'.format(label_a),
+            '{} - Cercanía'.format(label_a),
+            '{} - Autovalor'.format(label_a)
         ]
     ).T
 
     df_graph_b = pd.DataFrame(
         centrality_measures(graph_b, max_iter), 
         index=[
-            '{} - Degree'.format(label_b),
-            '{} - Betweeness'.format(label_b),
-            '{} - Closeness'.format(label_b),
-            '{} - Eigenvector'.format(label_b)
+            '{} - Grado'.format(label_b),
+            '{} - Intermediación'.format(label_b),
+            '{} - Cercanía'.format(label_b),
+            '{} - Autovalor'.format(label_b)
         ]
     ).T
 
