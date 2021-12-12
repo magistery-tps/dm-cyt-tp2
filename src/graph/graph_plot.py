@@ -272,8 +272,10 @@ def plot_centrality_mesures_heatmap(
     graph_b, 
     label_a, 
     label_b,
-    figsize = DEFAULT_FIGURE_SIZE,
-    max_iter = 5000
+    figsize         = DEFAULT_FIGURE_SIZE,
+    font_size       = 14,
+    title_font_size = 16,
+    max_iter        = 5000
 ):
     df_graph_a = pd.DataFrame(
         centrality_measures(graph_a, max_iter), 
@@ -296,6 +298,26 @@ def plot_centrality_mesures_heatmap(
     ).T
 
     plt.figure(figsize=figsize)
-    plt.title('Correlación de medidas de centralidad')
-    hm = sns.heatmap(df_graph_a.join(df_graph_b).corr())
-    hm.set_xticklabels(hm.get_xticklabels(), rotation=45, horizontalalignment='right')
+    plt.title('Correlación de medidas de centralidad', fontsize = title_font_size)
+    
+    corr = df_graph_a.join(df_graph_b).corr()
+    
+    mask = np.triu(np.ones_like(corr))
+ 
+    hm = sns.heatmap(
+        corr,
+        annot=True, 
+        mask=mask
+    )
+    
+    hm.set_xticklabels(
+        hm.get_xticklabels(), 
+        rotation            = 45, 
+        horizontalalignment = 'right',
+        fontsize            = font_size
+    )
+    
+    hm.set_yticklabels(
+        hm.get_yticklabels(), 
+        fontsize = font_size
+    )
