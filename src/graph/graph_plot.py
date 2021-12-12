@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib import pyplot, patches
 from plot import plot_hist
+import math
 
 import numpy as np
 import pandas as pd
@@ -23,13 +24,11 @@ from graph import graph_cycles, \
 
 
 
-
 def plot_graph_eigenvector_centrality(graph, title):
     plot_graph(
         graph,
         node_color = [v for v in nx.eigenvector_centrality(graph).values()],        
-        k       = 0.5,
-        figsize = (15, 4.5),
+        figsize = (15, 5),
         title   = title + ': Centralidad de autovectores' 
     )
     
@@ -37,8 +36,7 @@ def plot_degree_centrality(graph, title):
     plot_graph(
         graph,
         node_color = [v for v in nx.degree_centrality(graph).values()],        
-        k       = 0.5,
-        figsize = (15, 4.5),
+        figsize = (15, 5),
         title   = title + ': Centralidad de grardo' 
     )
 
@@ -46,8 +44,7 @@ def plot_betweenness_centrality(graph, title):
     plot_graph(
         graph,
         node_color = [v for v in nx.betweenness_centrality(graph).values()],        
-        k       = 0.5,
-        figsize = (15, 4.5),
+        figsize = (15, 5),
         title   = title + ': Centralidad de intermediación' 
     )
 
@@ -55,20 +52,20 @@ def plot_closeness_centrality(graph, title):
     plot_graph(
         graph,
         node_color = [v for v in nx.closeness_centrality(graph).values()],        
-        k       = 0.5,
-        figsize = (15, 4.5),
+        figsize = (15, 5),
         title   = title + ': Centralidad de cercania' 
     )
 
 def plot_adjacency_matrix2(
     graph, 
-    title   = 'Matriz de adyacencia',
-    figsize = DEFAULT_FIGURE_SIZE
+    title           = 'Matriz de adyacencia',
+    title_font_size = 16,
+    figsize         = DEFAULT_FIGURE_SIZE
 ):
     plt.figure(figsize = figsize)
     plt.matshow(nx.adjacency_matrix(graph).todense());
     plt.colorbar();
-    plt.suptitle(title)
+    plt.suptitle(title, fontsize = title_font_size)
 
 def plot_modularity_coeficient(graph):
     plot_hist(
@@ -128,21 +125,25 @@ def plot_adjacency_matrix(
 
 def plot_graph(
     graph,
-    k               = 0.01,
-    weight_desimals = 2,
-    figsize         = (15, 6), 
-    edge_color      = 'gray',
-    with_labels     = True,
-    font_color      = 'tomato',
-    font_weight     = 'bold',
-    node_size       = 3800, 
-    node_color      = 'blue',
-    title           = 'Grafo'
+    nodes_distance   = 5,
+    weight_desimals  = 2,
+    figsize          = (15, 6), 
+    edge_color       = 'gray',
+    with_labels      = True,
+    font_color       = 'red',
+    font_weight      = 'bold',
+    node_size        = 3800, 
+    node_color       = 'blue',
+    node_edge_colors = 'gray',
+    title            = 'Grafo',
+    alpha            = 0.99,
+    color_map        = plt.cm.Greens
 ):
     plt.figure(figsize=figsize)
-    pos        = nx.spring_layout(graph, k=k)
-    weights    = nx.get_edge_attributes(graph, 'weight')
-    labels     = {pair: round(weight, weight_desimals)  for pair, weight in weights.items()}
+
+    pos     = nx.spring_layout(graph, k= nodes_distance / math.sqrt(graph.order()))
+    weights = nx.get_edge_attributes(graph, 'weight')
+    labels  = {pair: round(weight, weight_desimals)  for pair, weight in weights.items()}
     
     nx.draw(
         graph,
@@ -152,16 +153,22 @@ def plot_graph(
         edge_color  = edge_color,
         font_color  = font_color,
         node_color  = node_color,
-        node_size   = node_size
+        edgecolors  = node_edge_colors,
+        node_size   = node_size,
+        cmap        = color_map,
+        alpha       = alpha
     )
 
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
 
     if not isinstance(node_color, str):
-        sm = plt.cm.ScalarMappable(norm = plt.Normalize(vmin=min(node_color), vmax=max(node_color)))
+        sm = plt.cm.ScalarMappable(
+            norm = plt.Normalize(vmin=min(node_color), vmax=max(node_color)),
+            cmap = color_map
+        )
         plt.colorbar(sm)
 
-    plt.title(title)
+    plt.title(title, fontsize=16)
 
 def plot_weight_dist(graph, title = ''):
     plot_hist(
@@ -196,11 +203,11 @@ def graph_summary(
     dataset,
     graph, 
     title='Grafo de palabras',
-    font_color  = 'tomato',
-    font_weight = 'bold',
-    k_percent   = 0.1,
-    k_layout    = 0.01,
-    node_size   = 3800 
+    font_color     = 'red',
+    font_weight    = 'bold',
+    k_percent      = 0.1,
+    nodes_distance = 5,
+    node_size      = 3800 
 ):
     print('Información:')
     print(nx.info(graph))
@@ -221,23 +228,24 @@ def graph_summary(
 
     plot_graph(
         sub_graph,
-        title       = title + ': Grafo de palabras pesado',
-        font_color  = font_color,
-        font_weight = font_weight,
-        node_color  = [v for v in nx.degree_centrality(sub_graph).values()],
-        k           = k_layout,
-        node_size   = node_size
+        title          = title + ': Grafo de palabras pesado',
+        font_color     = font_color,
+        font_weight    = font_weight,
+        node_color     = [v for v in nx.degree_centrality(sub_graph).values()],
+        nodes_distance = nodes_distance,
+        node_size      = node_size
     )
 
 def plot_cumulative_degree_dists(
     graph_a,
     graph_b,
-    label_a = 'Graph A', 
-    label_b = 'Graph B', 
-    ylabel  = 'Frecuencia',
-    xlabel  = 'Grado',
-    title   = 'Distribución de grados acumulada',
-    figsize = DEFAULT_FIGURE_SIZE
+    label_a         = 'Graph A', 
+    label_b         = 'Graph B', 
+    ylabel          = 'Frecuencia',
+    xlabel          = 'Grado',
+    title           = 'Distribución de grados acumulada',
+    title_font_size = 16,
+    figsize         = DEFAULT_FIGURE_SIZE
 ):
     nodes_degree(graph_a).hist(
         density    = True,
@@ -256,7 +264,7 @@ def plot_cumulative_degree_dists(
     );
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
-    plt.title(title)
+    plt.title(title, fontsize = title_font_size)
     plt.legend()
 
 def plot_centrality_mesures_heatmap(
