@@ -20,5 +20,6 @@ dependencies:
   - plotly
   - pip
   - gensim
+  - python-louvain
   - pip:
     - rich
