@@ -1,5 +1,10 @@
 # UBA - Maestria en Explotación de Datos y Descubrimiento de Conocimiento - Datamining en Ciencia y Tecnologia
 
+## Grupo
+
+* Adrian Norberto Marino
+* Claudio Collado
+* Flavia Felicioni
 
 ## Trabajos Prácticos 2: Redes de palabras
 
