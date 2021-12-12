@@ -32,7 +32,7 @@ def plot_graph_eigenvector_centrality(graph, title, nodes_distance = 5):
         title          = title + ': Centralidad de autovectores',
         with_labels    = False,
         with_weights   = False,
-        node_size      = 500,
+        node_size      = 250,
         nodes_distance = nodes_distance
     )
     
@@ -44,7 +44,7 @@ def plot_degree_centrality(graph, title, nodes_distance = 5):
         title          = title + ': Centralidad de grardo',
         with_labels    = False,
         with_weights   = False,
-        node_size      = 500,
+        node_size      = 250,
         nodes_distance = nodes_distance
     )
 
@@ -56,7 +56,7 @@ def plot_betweenness_centrality(graph, title, nodes_distance = 5):
         title          = title + ': Centralidad de intermediación',
         with_labels    = False,
         with_weights   = False,
-        node_size      = 500,
+        node_size      = 250,
         nodes_distance = nodes_distance
     )
 
@@ -68,7 +68,7 @@ def plot_closeness_centrality(graph, title, nodes_distance = 5):
         title          = title + ': Centralidad de cercania',
         with_labels    = False,
         with_weights   = False,
-        node_size      = 500,
+        node_size      = 250,
         nodes_distance = nodes_distance
     )
 
