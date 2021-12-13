@@ -9,6 +9,7 @@
 ## Trabajos Prácticos 2: Redes de palabras
 
 * [Enunciado](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Enunciado.pdf)
+* [Informe](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/docs/Informe.pdf)
 * **Notebooks**
     * [Preprocessing](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/preprocessing.ipynb) 
     * [Analysis](https://github.com/magistery-tps/dm-cyt-tp2/blob/main/notebooks/analysis.ipynb) 
