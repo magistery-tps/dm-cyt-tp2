@@ -73,9 +73,9 @@ http://localhost:8888/?token=45efe99607fa6......
 **Paso 7**: Ir a http://localhost:8888.... como se indica en la consola.
 
 
-## Agregar una nueva depedencia
+## Agregar una nueva dependencia
 
-**Paso 1**: Agregar la nueva depedencia a ´environment.yml´
+**Paso 1**: Agregar la nueva dependencia a ´environment.yml´
 
 Conda tiene sus propios repositorios de paquetes pero en caso de tener algun problema siempre se puede usar los paquetes de pip.
 
